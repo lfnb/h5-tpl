@@ -1,0 +1,19 @@
+root = true
+
+# Unix-style newlines with a newline ending every file 对于所有的文件  始终在文件末尾插入一个新行
+[*]
+end_of_line = crlf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+
+# 对于所有的js文件，设置文件字符集为utf-8
+[*.js]
+charset = utf-8
+
+# 设置所有JS,tsx的缩进为
+[*.{js,tsx}]
+
+indent_style = tab
+indent_size = 2
+

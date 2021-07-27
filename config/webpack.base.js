@@ -24,61 +24,10 @@ const basePath = path.resolve(__dirname, "../src");
 
 const template = path.resolve(__dirname, "../public/index.html");
 
-const copyOptions = require("./copyConfig");
-const copyPatterns = [];
-Object.keys(copyOptions).forEach(key => {
-	const pattern = { from: `./src/apps/${key}/assets/`, to: `./${key}/assets/` };
-	copyPatterns.push(pattern);
-});
-
 const smp = new SpeedMeasurePlugin();
 
-function getEntrys() {
-	const entrys = {};
-
-	const htmlWebpackPlugins = [];
-
-	const files = glob.sync(`${basePath}/apps/*/pages/index.js`);
-
-	files.forEach((item) => {
-		const match = item.match(/src\/apps\/(.*)\/pages\/index\.js/);
-
-		const filename = match && match[1];
-
-		if (filename) {
-			const tpl = `${basePath}/apps/${filename}/index.html`;
-
-			const isExitTemplate = fs.existsSync(tpl);
-
-			entrys[filename] = item;
-
-			htmlWebpackPlugins.push(
-				new HtmlWebpackPlugin({
-					template: isExitTemplate ? tpl : template,
-
-					filename: `${filename}/index.html`,
-
-					chunks: [filename],
-
-					inject: true,
-				})
-			);
-		} else {
-			console.error(`项目不存在`);
-		}
-	});
-
-	return {
-		entrys,
-
-		htmlWebpackPlugins,
-	};
-}
-
-const { entrys, htmlWebpackPlugins } = getEntrys();
-
 module.exports = smp.wrap({
-	entry: entrys,
+	entry: ["./src/apps/pages/index.js"],
 
 	module: {
 		rules: [
@@ -185,9 +134,14 @@ module.exports = smp.wrap({
 		}),
 
 		new CopyPlugin({
-			patterns: [{ from: "./build/", to: "../dist/" }].concat(copyPatterns),
+			patterns: [{ from: "./build/", to: "../dist/" }],
 		}),
-	].concat(htmlWebpackPlugins),
+		new HtmlWebpackPlugin({
+			template,
+			filename: `index.html`,
+			inject: true,
+		}),
+	],
 
 	resolve: {
 		extensions: [".tsx", ".ts", ".js", ".less"],

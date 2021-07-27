@@ -9,7 +9,6 @@ const Dotenv = require("dotenv-webpack");
 const baseConfig = require("./webpack.base");
 const manifest = require("../build/library/library.json");
 
-const page = process.env.npm_config_module;
 
 module.exports = merge(baseConfig, {
 	mode: "development",
@@ -27,14 +26,12 @@ module.exports = merge(baseConfig, {
 	],
 
 	devServer: {
-		contentBase: path.resolve(__dirname, `../dist/${page}`),
+		contentBase: path.resolve(__dirname, `../dist`),
 
 		hot: true,
 
 		port: 8080,
 
 		// open: 'Google Chrome',
-
-		// openPage: page ? '/' + page : '/demo',
 	},
 });

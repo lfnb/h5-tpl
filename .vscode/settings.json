@@ -1,0 +1,8 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.fontSize": 14,
+  //#让函数(名)和后面的括号之间加个空格
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+}
